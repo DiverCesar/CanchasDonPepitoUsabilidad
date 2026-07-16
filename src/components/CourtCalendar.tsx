@@ -5,8 +5,8 @@ type Court = { id: string; name: string; type: string; price: number };
 type TimeSlot = { time: string; status: 'disponible' | 'reservado' | 'bloqueado' };
 
 const courts: Court[] = [
-  { id: '1', name: 'Cancha 1', type: 'Ecuavóley', price: 15.00 },
-  { id: '2', name: 'Cancha 2', type: 'Ecuavóley', price: 15.00 },
+  { id: '1', name: 'CANCHA 1', type: 'Ecuavóley', price: 15.00 },
+  { id: '2', name: 'CANCHA 2', type: 'Ecuavóley', price: 15.00 },
 ];
 
 const mockSchedule: Record<string, TimeSlot[]> = {
@@ -31,53 +31,56 @@ export default function CourtCalendar() {
   const schedule = mockSchedule[selectedCourt] || [];
 
   return (
-    <div className="glass-panel animate-fade-in">
-      <div className="flex justify-between items-center mb-4" style={{ flexWrap: 'wrap' }}>
-        <h2 style={{ fontSize: '1.5rem' }}>Disponibilidad de Canchas</h2>
+    <div className="panel animate-slide">
+      <div className="flex justify-between items-center mb-4" style={{ flexWrap: 'wrap', gap: '1rem' }}>
+        <h2 style={{ fontSize: '1.4rem' }}>Disponibilidad / Horarios</h2>
         <div className="flex gap-2">
           <input 
             type="date" 
             className="input-field" 
             value={selectedDate} 
             onChange={(e) => setSelectedDate(e.target.value)} 
-            style={{ width: 'auto', padding: '0.4rem 1rem' }}
+            style={{ width: '150px' }}
           />
           <select 
             className="input-field" 
             value={selectedCourt} 
             onChange={(e) => setSelectedCourt(e.target.value)}
-            style={{ width: 'auto', padding: '0.4rem 1rem' }}
+            style={{ width: '150px' }}
           >
             {courts.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
           </select>
         </div>
       </div>
 
-      <div style={{ display: 'flex', gap: '1rem', marginBottom: '1.5rem', fontSize: '0.8rem' }}>
-        <div className="flex items-center gap-2"><span style={{ width: '12px', height: '12px', borderRadius: '50%', background: 'var(--accent-success)' }}></span> Disponible</div>
-        <div className="flex items-center gap-2"><span style={{ width: '12px', height: '12px', borderRadius: '50%', background: 'var(--accent-danger)' }}></span> Reservado</div>
-        <div className="flex items-center gap-2"><span style={{ width: '12px', height: '12px', borderRadius: '50%', background: 'var(--text-secondary)' }}></span> Bloqueado</div>
+      <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem', fontSize: '0.8rem', fontWeight: 600, textTransform: 'uppercase' }}>
+        <div className="flex items-center gap-2"><span style={{ width: '10px', height: '10px', background: 'var(--accent-success)' }}></span> Disponible</div>
+        <div className="flex items-center gap-2"><span style={{ width: '10px', height: '10px', background: 'var(--accent-danger)' }}></span> Reservado</div>
+        <div className="flex items-center gap-2"><span style={{ width: '10px', height: '10px', background: 'var(--text-secondary)' }}></span> Bloqueado</div>
       </div>
 
       <div className="grid grid-cols-4">
         {schedule.map((slot, index) => (
-          <div key={index} className="glass-card" style={{ 
-            borderLeft: `4px solid ${slot.status === 'disponible' ? 'var(--accent-success)' : slot.status === 'reservado' ? 'var(--accent-danger)' : 'var(--text-secondary)'}`,
-            display: 'flex', flexDirection: 'column', gap: '0.5rem', alignItems: 'center'
+          <div key={index} className="card text-center flex-col justify-between" style={{ 
+            borderTop: `4px solid ${slot.status === 'disponible' ? 'var(--accent-success)' : slot.status === 'reservado' ? 'var(--accent-danger)' : 'var(--text-secondary)'}`,
+            padding: '1rem 0.5rem',
+            minHeight: '120px'
           }}>
-            <h3 style={{ fontSize: '1.2rem', margin: 0 }}>{slot.time}</h3>
+            <h3 style={{ fontSize: '1.5rem', margin: 0, color: 'var(--text-primary)' }}>{slot.time}</h3>
             
-            {slot.status === 'disponible' ? (
-              <span className="badge badge-success">Libre - $15.00</span>
-            ) : slot.status === 'reservado' ? (
-              <span className="badge badge-danger">Reservado</span>
-            ) : (
-              <span className="badge badge-neutral">Mantenimiento</span>
-            )}
+            <div className="mt-1 mb-2">
+              {slot.status === 'disponible' ? (
+                <span className="badge badge-success">Libre - $15</span>
+              ) : slot.status === 'reservado' ? (
+                <span className="badge badge-danger">Ocupado</span>
+              ) : (
+                <span className="badge badge-neutral">Mantenimiento</span>
+              )}
+            </div>
             
             {slot.status === 'disponible' && (
-              <button className="btn btn-primary" style={{ width: '100%', padding: '0.4rem', marginTop: '0.5rem', fontSize: '0.85rem' }}>
-                Reservar
+              <button className="btn btn-primary" style={{ width: '90%', fontSize: '0.8rem', padding: '0.4rem' }}>
+                RESERVAR
               </button>
             )}
           </div>

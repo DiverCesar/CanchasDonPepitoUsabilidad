@@ -33,12 +33,12 @@ export default function ProductCatalog() {
   const totalItems = Object.values(cart).reduce((a, b) => a + b, 0);
 
   return (
-    <div className="animate-fade-in">
-      <div className="flex justify-between items-center mb-4">
-        <h2>Catálogo de Productos</h2>
+    <div className="animate-slide">
+      <div className="panel flex justify-between items-center mb-4" style={{ padding: '1rem', borderTop: '2px solid var(--accent-primary)' }}>
+        <h2 style={{ fontSize: '1.25rem' }}>Catálogo de Snacks y Bebidas</h2>
         {totalItems > 0 && (
-          <Link href="/checkout" className="btn btn-primary">
-            Pagar Pedido ({totalItems})
+          <Link href="/checkout" className="btn btn-primary" style={{ padding: '0.5rem 1.5rem' }}>
+            PAGAR PEDIDO ({totalItems})
           </Link>
         )}
       </div>
@@ -47,32 +47,39 @@ export default function ProductCatalog() {
         {mockProducts.map((p) => {
           const inCart = cart[p.id] || 0;
           return (
-            <div key={p.id} className="glass-card text-center" style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-              <div style={{ fontSize: '3rem', margin: '1rem 0' }}>{p.image}</div>
-              <h3 style={{ fontSize: '1.1rem' }}>{p.name}</h3>
-              <p style={{ color: 'var(--accent-success)', fontWeight: 700, fontSize: '1.25rem' }}>${p.price.toFixed(2)}</p>
+            <div key={p.id} className="card text-center flex-col justify-between" style={{ padding: '1rem 0.5rem' }}>
+              <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>{p.image}</div>
+              <h3 style={{ fontSize: '1rem', color: 'var(--text-secondary)' }}>{p.name}</h3>
+              <p style={{ color: 'var(--text-primary)', fontWeight: 800, fontSize: '1.4rem', margin: '0.25rem 0' }}>${p.price.toFixed(2)}</p>
               
-              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem', marginTop: 'auto' }}>
+              <div className="flex justify-center items-center mt-2 mb-1">
                 {inCart > 0 ? (
-                  <div className="flex items-center gap-2" style={{ background: 'rgba(255,255,255,0.05)', borderRadius: '8px', padding: '0.2rem' }}>
-                    <button onClick={() => removeFromCart(p.id)} className="btn btn-secondary" style={{ padding: '0.25rem 0.75rem' }}>-</button>
-                    <span style={{ fontWeight: 700, minWidth: '1.5rem' }}>{inCart}</span>
-                    <button onClick={() => addToCart(p.id)} className="btn btn-primary" style={{ padding: '0.25rem 0.75rem' }} disabled={inCart >= p.stock}>+</button>
+                  <div className="flex items-center gap-2" style={{ background: 'var(--bg-primary)', borderRadius: '2px', padding: '0.2rem' }}>
+                    <button onClick={() => removeFromCart(p.id)} className="btn btn-secondary" style={{ padding: '0.2rem 0.6rem', fontSize: '1rem' }}>-</button>
+                    <span style={{ fontWeight: 800, minWidth: '1.5rem' }}>{inCart}</span>
+                    <button onClick={() => addToCart(p.id)} className="btn btn-primary" style={{ padding: '0.2rem 0.6rem', fontSize: '1rem' }} disabled={inCart >= p.stock}>+</button>
                   </div>
                 ) : (
                   <button 
                     onClick={() => addToCart(p.id)} 
                     className="btn btn-secondary" 
-                    style={{ width: '100%', padding: '0.5rem' }}
+                    style={{ width: '90%', fontSize: '0.85rem' }}
                     disabled={p.stock === 0}
                   >
-                    {p.stock > 0 ? 'Agregar al pedido' : 'Agotado'}
+                    {p.stock > 0 ? 'AGREGAR' : 'AGOTADO'}
                   </button>
                 )}
               </div>
-              <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
-                {p.stock > 5 ? `${p.stock} disponibles` : p.stock > 0 ? <span style={{ color: 'var(--accent-warning)' }}>¡Solo ${p.stock} disponibles!</span> : 'Sin stock'}
-              </p>
+              
+              <div style={{ fontSize: '0.75rem', fontWeight: 600, textTransform: 'uppercase' }}>
+                {p.stock > 5 ? (
+                  <span style={{ color: 'var(--text-secondary)' }}>STOCK: {p.stock}</span>
+                ) : p.stock > 0 ? (
+                  <span style={{ color: 'var(--accent-warning)' }}>¡SOLO {p.stock} LEFT!</span>
+                ) : (
+                  <span style={{ color: 'var(--accent-danger)' }}>SIN STOCK</span>
+                )}
+              </div>
             </div>
           )
         })}

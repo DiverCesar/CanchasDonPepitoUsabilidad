@@ -1,25 +1,28 @@
 /**
- * Simula la validación de un pago por transferencia contra la API del Banco Pichincha u otro banco.
- * Tarda hasta 5 segundos y puede fallar o aceptar simulando una red real.
+ * Simula la validación de un pago por transferencia contra la API del banco.
+ * Ahora incluye una restricción estricta de timeout de 5 segundos.
  */
 export async function simulateBankTransferValidation(token: string): Promise<{ success: boolean; message: string; timeout?: boolean }> {
   return new Promise((resolve) => {
-    const delay = Math.random() * 4000 + 1000; // 1s to 5s delay
+    // Generate a random delay between 1s and 6s.
+    // If it exceeds 5s, the frontend must strictly handle it as a timeout failure.
+    const delay = Math.random() * 5000 + 1000; 
     
+    const isTimeout = delay > 5000;
+    
+    // We enforce the response at Math.min(delay, 5001) to simulate the strict cutoff.
     setTimeout(() => {
-      // Simulate 5% chance of timeout exceeding 5 seconds (which is a requirement failure case in GI)
-      if (delay > 4800) {
-        resolve({ success: false, message: 'Timeout: La plataforma de banca móvil no responde.', timeout: true });
+      if (isTimeout) {
+        resolve({ success: false, message: 'TIMEOUT: La plataforma de banca móvil excedió los 5 segundos de espera permitidos (RNF-006).', timeout: true });
         return;
       }
       
-      // Simulate 90% success rate for correct tokens
-      const isSuccess = Math.random() > 0.1;
+      const isSuccess = Math.random() > 0.15;
       if (isSuccess) {
-        resolve({ success: true, message: 'Transacción confirmada exitosamente.' });
+        resolve({ success: true, message: 'TRX_OK: Transacción confirmada exitosamente.' });
       } else {
-        resolve({ success: false, message: 'Transacción rechazada por el banco (fondos insuficientes o token inválido).' });
+        resolve({ success: false, message: 'TRX_REJECTED: Transacción rechazada por el banco (fondos o token inválido).' });
       }
-    }, delay);
+    }, Math.min(delay, 5001));
   });
 }

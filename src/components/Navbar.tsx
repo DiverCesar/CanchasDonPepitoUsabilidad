@@ -9,24 +9,22 @@ export default function Navbar() {
     <nav style={{
       position: 'fixed',
       top: 0, width: '100%', zIndex: 50,
-      background: 'var(--glass-bg)',
-      backdropFilter: 'var(--glass-blur)',
-      WebkitBackdropFilter: 'var(--glass-blur)',
-      borderBottom: '1px solid var(--glass-border)',
-      padding: '1rem 0'
+      background: 'var(--bg-primary)',
+      borderBottom: '2px solid var(--accent-primary)',
+      padding: '0.75rem 0'
     }}>
       <div className="container flex justify-between items-center">
-        <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 800, fontSize: '1.25rem', fontFamily: 'var(--font-heading)' }}>
-          <div style={{ width: '32px', height: '32px', borderRadius: '8px', background: 'linear-gradient(135deg, var(--accent-primary), var(--accent-secondary))', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg>
+        <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 800, fontSize: '1.2rem', fontFamily: 'var(--font-heading)', textTransform: 'uppercase' }}>
+          <div style={{ width: '28px', height: '28px', background: 'var(--accent-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--bg-primary)' }}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg>
           </div>
-          Don Pepito
+          DON PEPITO
         </Link>
-        <div className="flex gap-4 items-center">
-          <Link href="/canchas" style={{ fontWeight: pathname === '/canchas' ? 700 : 500, color: pathname === '/canchas' ? 'var(--text-primary)' : 'var(--text-secondary)' }}>Reservas</Link>
-          <Link href="/pedidos" style={{ fontWeight: pathname === '/pedidos' ? 700 : 500, color: pathname === '/pedidos' ? 'var(--text-primary)' : 'var(--text-secondary)' }}>Pedidos</Link>
-          <Link href="/checkout" style={{ fontWeight: pathname === '/checkout' ? 700 : 500, color: pathname === '/checkout' ? 'var(--text-primary)' : 'var(--text-secondary)' }}>Caja (GI)</Link>
-          <Link href="/admin/dashboard" className="btn btn-primary" style={{ padding: '0.4rem 1rem', fontSize: '0.9rem' }}>Vendedor</Link>
+        <div className="flex gap-4 items-center" style={{ fontSize: '0.9rem', fontFamily: 'var(--font-heading)', textTransform: 'uppercase', fontWeight: 700 }}>
+          <Link href="/canchas" style={{ color: pathname === '/canchas' ? 'var(--accent-primary)' : 'var(--text-secondary)' }}>Reservas</Link>
+          <Link href="/pedidos" style={{ color: pathname === '/pedidos' ? 'var(--accent-primary)' : 'var(--text-secondary)' }}>Pedidos</Link>
+          <Link href="/checkout" style={{ color: pathname === '/checkout' ? 'var(--accent-primary)' : 'var(--text-secondary)' }}>Caja</Link>
+          <Link href="/admin/dashboard" className="btn btn-primary" style={{ padding: '0.25rem 0.75rem', fontSize: '0.8rem' }}>Admin / Vendedor</Link>
         </div>
       </div>
     </nav>
